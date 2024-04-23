@@ -26,10 +26,11 @@
         {
             @foreach (var item in Model)
             {
+                count++;
                 <tr>
                     <td>
                         @{
-                            <span>@count;</span>
+                            <span>@count</span>
                         }
                     </td>
                     <td>
