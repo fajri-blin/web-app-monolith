@@ -10,6 +10,4 @@ public partial class TbMUnit
     public string Name { get; set; } = null!;
 
     public bool? Isdelete { get; set; }
-
-    public virtual ICollection<TbTrPrice> TbTrPrices { get; set; } = new List<TbTrPrice>();
 }

@@ -10,6 +10,4 @@ public partial class TbMRole
     public string Name { get; set; } = null!;
 
     public bool? Isdelete { get; set; }
-
-    public virtual ICollection<TbMEmployee> TbMEmployees { get; set; } = new List<TbMEmployee>();
 }

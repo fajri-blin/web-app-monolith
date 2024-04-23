@@ -60,10 +60,6 @@ public partial class DbPosManagementContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .HasColumnName("username");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.TbMEmployees)
-                .HasForeignKey(d => d.RoleGuid)
-                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<TbMProduct>(entity =>
@@ -122,18 +118,6 @@ public partial class DbPosManagementContext : DbContext
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("subtotal");
             entity.Property(e => e.TransactionGuid).HasColumnName("transaction_guid");
-
-            entity.HasOne(d => d.Price).WithMany(p => p.TbMTransactionItems)
-                .HasForeignKey(d => d.PriceGuid)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.TbMTransactionItems)
-                .HasForeignKey(d => d.ProductGuid)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            entity.HasOne(d => d.Transaction).WithMany(p => p.TbMTransactionItems)
-                .HasForeignKey(d => d.TransactionGuid)
-                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<TbMUnit>(entity =>
@@ -154,7 +138,7 @@ public partial class DbPosManagementContext : DbContext
 
             entity.ToTable("tb_tr_price");
 
-            entity.HasIndex(e => e.PriceGuid, "IX_tb_tr_price_price_guid");
+            entity.HasIndex(e => e.UnitGuid, "IX_tb_tr_price_price_guid");
 
             entity.HasIndex(e => e.ProductGuid, "IX_tb_tr_price_product_guid");
 
@@ -165,16 +149,8 @@ public partial class DbPosManagementContext : DbContext
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("amount");
             entity.Property(e => e.Isdelete).HasColumnName("isdelete");
-            entity.Property(e => e.PriceGuid).HasColumnName("price_guid");
             entity.Property(e => e.ProductGuid).HasColumnName("product_guid");
-
-            entity.HasOne(d => d.Price).WithMany(p => p.TbTrPrices)
-                .HasForeignKey(d => d.PriceGuid)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.TbTrPrices)
-                .HasForeignKey(d => d.ProductGuid)
-                .OnDelete(DeleteBehavior.SetNull);
+            entity.Property(e => e.UnitGuid).HasColumnName("unit_guid");
         });
 
         modelBuilder.Entity<TbTrTransaction>(entity =>
@@ -194,8 +170,6 @@ public partial class DbPosManagementContext : DbContext
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("total_ammount");
             entity.Property(e => e.TransactionDate).HasColumnName("transaction_date");
-
-            entity.HasOne(d => d.Employee).WithMany(p => p.TbTrTransactions).HasForeignKey(d => d.EmployeeGuid);
         });
 
         OnModelCreatingPartial(modelBuilder);

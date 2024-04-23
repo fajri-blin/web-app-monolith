@@ -1,7 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<web_app.ViewModels.RoleViewModel>
 
-
+<h4>Role List</h4>
+<hr />
+<a asp-action="Create">
+    <button>Create</button>
+</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>NO.</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.Isdelete)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+        }
+        @if(Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @{
+                            <span>@count;</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    @*            <td>
+            @Html.DisplayFor(modelItem => item.Isdelete)
+            </td>*@
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Guid">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Guid">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

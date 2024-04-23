@@ -14,8 +14,4 @@ public partial class TbTrTransaction
     public decimal? TotalAmmount { get; set; }
 
     public bool? Isdelete { get; set; }
-
-    public virtual TbMEmployee? Employee { get; set; }
-
-    public virtual ICollection<TbMTransactionItem> TbMTransactionItems { get; set; } = new List<TbMTransactionItem>();
 }

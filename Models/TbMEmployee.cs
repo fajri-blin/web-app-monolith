@@ -18,8 +18,4 @@ public partial class TbMEmployee
     public Guid? RoleGuid { get; set; }
 
     public bool? Isdelete { get; set; }
-
-    public virtual TbMRole? Role { get; set; }
-
-    public virtual ICollection<TbTrTransaction> TbTrTransactions { get; set; } = new List<TbTrTransaction>();
 }

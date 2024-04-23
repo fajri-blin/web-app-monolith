@@ -12,8 +12,4 @@ public partial class TbMProduct
     public string Title { get; set; } = null!;
 
     public bool? Isdelete { get; set; }
-
-    public virtual ICollection<TbMTransactionItem> TbMTransactionItems { get; set; } = new List<TbMTransactionItem>();
-
-    public virtual ICollection<TbTrPrice> TbTrPrices { get; set; } = new List<TbTrPrice>();
 }

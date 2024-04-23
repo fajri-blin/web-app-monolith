@@ -18,10 +18,4 @@ public partial class TbMTransactionItem
     public decimal Subtotal { get; set; }
 
     public bool? Isdelete { get; set; }
-
-    public virtual TbTrPrice? Price { get; set; }
-
-    public virtual TbMProduct? Product { get; set; }
-
-    public virtual TbTrTransaction? Transaction { get; set; }
 }
