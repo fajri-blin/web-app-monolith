@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using web_app.ViewModels;
 
 namespace web_app.Models;
 
@@ -176,4 +177,6 @@ public partial class DbPosManagementContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<web_app.ViewModels.ProductViewModel> ProductViewModel { get; set; } = default!;
 }

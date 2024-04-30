@@ -2,9 +2,14 @@
 
 <h4>Role List</h4>
 <hr />
-<a asp-action="Create">
+@*<a asp-action="Create">
     <button>Create</button>
-</a>
+</a>*@
+
+<div>
+    @await Html.PartialAsync("_Create", new web_app.ViewModels.RoleViewModel())
+</div>
+<hr/>
 <table class="table">
     <thead>
         <tr>
@@ -48,3 +53,10 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
