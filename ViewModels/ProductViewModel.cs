@@ -4,6 +4,6 @@ namespace web_app.ViewModels;
 
 public class ProductViewModel : TbMProduct
 {
-    public required TbMUnit Unit { get; set; }
-    public required TbTrPrice Price { get; set; }
+    public TbMUnit? Unit { get; set; } = new TbMUnit();
+    public TbTrPrice? Price { get; set; } = new TbTrPrice();
 }
