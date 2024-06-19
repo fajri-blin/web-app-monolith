@@ -4,7 +4,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="SubmitCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="BarcodeId" class="control-label"></label>
@@ -16,29 +16,24 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-@*             <div class="form-group">
-                <label asp-for="Unit.Name" class="control-label"></label>
-                <input asp-for="Unit.Name" class="form-control" />
-                <span asp-validation-for="Unit.Name" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
-                <label asp-for="Unit.Name" class="control-label">Unit</label>
-                <input list="units" asp-for="Unit.Name" class="form-control" />
+                <label asp-for="UnitName" class="control-label">Unit</label>
+                <input list="units" asp-for="UnitName" class="form-control" />
                 <datalist id="units">
-                    @if(Model.Units is not null)
+                    @if (Model.Units is not null)
                     {
                         @foreach (var unit in Model.Units)
                         {
                             <option value="@unit.Name"></option>
-                        }                        
+                        }
                     }
                 </datalist>
-                <span asp-validation-for="Unit.Name" class="text-danger"></span>
+                <span asp-validation-for="UnitName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price.Amount" class="control-label"></label>
-                <input asp-for="Price.Amount" class="form-control" />
-                <span asp-validation-for="Price.Amount" class="text-danger"></span>
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -48,5 +43,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -4,7 +4,7 @@ namespace web_app.ViewModels;
 
 public class ProductViewModel : TbMProduct
 {
-    public TbMUnit? Unit { get; set; }
-    public TbTrPrice? Price { get; set; }
+    public string? UnitName { get; set; }
+    public decimal? Price { get; set; }
     public List<TbMUnit>? Units { get; set; }
 }

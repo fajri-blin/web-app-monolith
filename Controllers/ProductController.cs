@@ -23,11 +23,13 @@ public class ProductController : Controller
     #region Create
     public IActionResult Create()
     {
-        ProductViewModel model = new ProductViewModel();
-        model.Units = _context.TbMUnits.ToList();
-
+        ProductViewModel model = new ProductViewModel
+        {
+            Units = _context.TbMUnits.ToList()
+        };
         return View(model);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult SubmitCreate(ProductViewModel model)
@@ -38,40 +40,66 @@ public class ProductController : Controller
             return View("Create", model);
         }
 
-        // Check if the unit exists
-        var existingUnit = _context.TbMUnits.SingleOrDefault(u => u.Name.ToLower() == model.Unit!.Name.ToLower());
-
-        if (existingUnit == null)
+        try
         {
-            // Create a new unit
-            var newUnit = new TbMUnit { Name = model.Unit!.Name };
-            newUnit.Guid = Guid.NewGuid();
-            _context.TbMUnits.Add(newUnit);
+            TbMUnit? newUnit = null;
+            TbMProduct? newProduct = null;
+
+            // Check if the unit exists
+            var existingUnit = _context.TbMUnits.SingleOrDefault(u => u.Name.ToUpper() == model.UnitName!.ToUpper());
+            if (existingUnit == null)
+            {
+                // Create a new unit
+                newUnit = new TbMUnit
+                {
+                    Name = model.UnitName!.ToUpper(),
+                    Guid = Guid.NewGuid(),
+                    Isdelete = false
+                };
+                _context.TbMUnits.Add(newUnit);
+                _context.SaveChanges();
+            }
+
+            // Check if the product exists
+            var existingProduct = _context.TbMProducts.SingleOrDefault(p => p.BarcodeId.ToLower() == model.BarcodeId.ToLower());
+            if (existingProduct == null)
+            {
+                newProduct = new TbMProduct
+                {
+                    Title = model.Title,
+                    BarcodeId = model.BarcodeId,
+                    Guid = Guid.NewGuid(),
+                    Isdelete = false
+                };
+                _context.TbMProducts.Add(newProduct);
+                _context.SaveChanges();
+            }
+
+            // Add Prices based on Product and Unit
+            TbTrPrice price = new TbTrPrice
+            {
+                Guid = Guid.NewGuid(),
+                Isdelete = false,
+                ProductGuid = existingProduct?.Guid ?? newProduct?.Guid,
+                UnitGuid = existingUnit?.Guid ?? newUnit?.Guid,
+                Amount = (decimal)model.Price!
+            };
+
+            _context.TbTrPrices.Add(price);
             _context.SaveChanges();
-            existingUnit = newUnit;
+
+            return RedirectToAction("Index");
         }
-
-        // Use the existing or new unit's Id
-        var product = new TbMProduct
+        catch
         {
-            Guid = Guid.NewGuid(),
-            BarcodeId = model.BarcodeId,
-            Title = model.Title,
-            Isdelete = false,
-            //UnitId = existingUnit.Id,
-            //PriceAmount = decimal.Parse(model.PriceAmount) // Ensure this conversion works correctly
-        };
-        _context.TbMProducts.Add(product);
-        _context.SaveChanges();
-
-        // Add Prices based on Product and Unit ????
-
-        return RedirectToAction("Index");
+            // Log the error (not implemented)
+            return RedirectToAction("Index");
+        }
     }
     #endregion
 
-    #region Edit
-    public IActionResult Edit()
+#region Edit
+public IActionResult Edit()
     {
         return View();
     }
