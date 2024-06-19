@@ -20,7 +20,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
-                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +38,12 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Guid">Edit</a> |

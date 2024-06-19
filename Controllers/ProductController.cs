@@ -17,7 +17,39 @@ public class ProductController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        try
+        {
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            var data = (
+                from price in _context.TbTrPrices.ToList()
+                join product in _context.TbMProducts.ToList() on  price.ProductGuid equals product.Guid
+                join unit in _context.TbMUnits.ToList() on price.UnitGuid equals unit.Guid
+                select new
+                {
+                    product_id = product.Guid,
+                    product_barcodeid = product.BarcodeId,
+                    product_title = product.Title,
+                    unit_name = unit.Name,
+                    price_amount = price.Amount
+                }).ToList();
+
+            foreach (var item in data) 
+            {
+                productViewModels.Add(new ProductViewModel {
+                Guid = item.product_id,
+                BarcodeId = item.product_barcodeid,
+                Title = item.product_title,
+                UnitName = item.unit_name,
+                Price = item.price_amount,
+                });
+            }
+
+        return View(productViewModels);
+        }
+        catch
+        {
+            return View();
+        }
     }
 
     #region Create
